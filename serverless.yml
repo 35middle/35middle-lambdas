@@ -1,0 +1,24 @@
+  service: serverless
+
+  frameworkVersion: '3'
+
+  provider:
+    name: aws
+    region: ap-southeast-2
+    runtime: nodejs16.x
+    profile: 35middle
+
+    # you can add statements to the Lambda function's IAM Role here
+    iam:
+      role:
+        statements:
+          - Effect: "Allow"
+            Action:
+              - "ses:SendRawEmail"
+            Resource: "*"
+
+  functions:
+    email:
+      handler: src/handler.email
+      events:
+        - sqs: arn:aws:sqs:ap-southeast-2:923144025182:35middle-reset-password-email
